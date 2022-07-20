@@ -9,11 +9,21 @@
     tools:context=".view.LoginActivity">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="DOGS"
+        android:textColor="@color/black"
+        android:textSize="50sp"
+        android:layout_marginBottom="175dp"/>
+
+    <TextView
         android:id="@+id/tvLoading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Loading ..."
-        android:textColor="@color/blue"
+        android:layout_gravity="left"
+        android:textColor="@color/black"
         android:textSize="18sp" />
 
     <ProgressBar
@@ -30,8 +40,9 @@
         android:id="@+id/tvDone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="right"
         android:text="Done!"
-        android:textColor="@color/blue"
+        android:textColor="@color/black"
         android:textSize="18sp" />
 
 </LinearLayout>
