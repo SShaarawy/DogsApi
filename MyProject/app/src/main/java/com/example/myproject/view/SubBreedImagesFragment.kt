@@ -1,84 +1,83 @@
 package com.example.myproject.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myproject.R
 import com.example.myproject.adapter.RVImageAdapter
-import com.example.myproject.databinding.FragmentImagesBinding
 import com.example.myproject.model.DogsImage
 import com.example.myproject.service.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ImagesFragment : Fragment(R.layout.fragment_images),RVImageAdapter.Listener {
-    private lateinit var binding : FragmentImagesBinding
+class SubBreedImagesFragment : Fragment(),RVImageAdapter.Listener {
     private var breedName : String? = null
-    private var dogsImages = arrayListOf<String>()
+    private var subBreedName : String? = null
+    private var rv : RecyclerView? = null
+    private var subBreedImages = arrayListOf<String>()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View? {
-        binding = FragmentImagesBinding.inflate(inflater,container,false)
-        return binding.root
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_images, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val data = arguments
-        breedName = data?.getString("breedName").toString()
+        rv = activity?.findViewById(R.id.rvImagesFragment)
 
-        println("fragment: $breedName")
+        val data = arguments
+        subBreedName = data?.getString("subBreedName")
+        breedName = data?.getString("breedName")
+
+        println("subBreedName $subBreedName")
 
         loadData()
     }
 
-    private fun loadData(){
+    private fun loadData() {
 
-        val call = RetrofitInstance.api.getBreedImages(breedName)
+        val call = RetrofitInstance.api.getSubBreedImages(breedName, subBreedName)
         call.enqueue(object : Callback<DogsImage> {
             override fun onResponse(call: Call<DogsImage>, response: Response<DogsImage>) {
 
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     response.body()?.let {
-                        dogsImages = ArrayList(it.message)
+                        subBreedImages = ArrayList(it.message)
                     }
 
-                    println("size: ${dogsImages.size}")
+                    println("size: ${subBreedImages.size}")
                     println("images: ${response.body()?.message}")
 
-                    binding.rvImagesFragment.apply {
-                        layoutManager = GridLayoutManager(activity,2)
-                        adapter = RVImageAdapter(dogsImages,this@ImagesFragment)
+                    rv?.apply {
+                        layoutManager = GridLayoutManager(activity, 2)
+                        adapter = RVImageAdapter(subBreedImages, this@SubBreedImagesFragment)
                     }
                 }
             }
-
             override fun onFailure(call: Call<DogsImage>, t: Throwable) {
                 t.printStackTrace()
             }
-
         })
-
     }
 
-    override fun onItemClick(breedName: String) {
-        val fragment = ImageFullFragment()
+    override fun onItemClick(subBreedName: String) {
+       val fragment = ImageFullFragment()
         val bundle = Bundle()
         fragment.arguments = bundle
-        bundle.putString("breedName",breedName) //sending chosen breed name to fragment from recyclerview
+        bundle.putString("breedName",subBreedName) //sending chosen breed name to fragment from recyclerview
 
         requireActivity().supportFragmentManager.beginTransaction().apply {
             replace(R.id.flFragmentBase,fragment)
             commit()
         }
     }
-
 }

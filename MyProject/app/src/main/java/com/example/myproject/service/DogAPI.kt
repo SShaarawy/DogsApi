@@ -14,5 +14,8 @@ interface DogAPI {
     @GET("breed/{breedName}/images")
     fun getBreedImages(@Path("breedName") breedName: String?): Call<DogsImage>
 
+    @GET("breed/{breedName}/{subBreedName}/images")
+    fun getSubBreedImages(@Path("breedName") breedName: String?, @Path("subBreedName") subBreedName: String?): Call<DogsImage>
+
 
 }

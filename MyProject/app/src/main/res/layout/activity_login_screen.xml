@@ -8,6 +8,14 @@
     android:padding="40dp"
     tools:context=".view.LoginActivity">
 
+    <TextView
+        android:id="@+id/tvLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Loading ..."
+        android:textColor="@color/blue"
+        android:textSize="18sp" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
@@ -17,5 +25,13 @@
         android:indeterminate="false"
         android:minHeight="50dp"
         android:progress="0"/>
+
+    <TextView
+        android:id="@+id/tvDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Done!"
+        android:textColor="@color/blue"
+        android:textSize="18sp" />
 
 </LinearLayout>

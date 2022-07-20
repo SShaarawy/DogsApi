@@ -24,7 +24,7 @@ class ImageFullFragment : Fragment(R.layout.fragment_image_full) {
         super.onViewCreated(view, savedInstanceState)
 
         val data = arguments
-        val breedImage = data?.getString("breedImage").toString()
+        val breedImage = data?.getString("breedName").toString()
         Picasso.get().load(breedImage).into(binding.ivFull)
 
         println("fragmentImage: $breedImage")

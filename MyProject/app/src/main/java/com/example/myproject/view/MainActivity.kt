@@ -6,7 +6,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.myproject.adapter.RecyclerViewAdapter
+import com.example.myproject.adapter.RVAdapter
 
 import com.example.myproject.databinding.ActivityMainBinding
 import com.example.myproject.model.Dog
@@ -16,7 +16,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : AppCompatActivity(),RecyclerViewAdapter.Listener {
+class MainActivity : AppCompatActivity(),RVAdapter.Listener {
 
     private lateinit var binding : ActivityMainBinding
     private var dogList = ArrayList<Map<String,List<String>>>()
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity(),RecyclerViewAdapter.Listener {
 
                     binding.rv.apply {
                         layoutManager = LinearLayoutManager(this@MainActivity)
-                        adapter = RecyclerViewAdapter(dogList,this@MainActivity)
+                        adapter = RVAdapter(dogList,this@MainActivity)
                     }
                 }
             }
@@ -63,6 +63,14 @@ class MainActivity : AppCompatActivity(),RecyclerViewAdapter.Listener {
     override fun onItemClick(breedName: String) {
         val intent = Intent(this,DisplayActivity::class.java)
         intent.putExtra("breedName",breedName)
+        startActivity(intent)
+
+    }
+
+    override fun onItemClick(breedName: String, subBreeds: ArrayList<String>) {
+        val intent = Intent(this,DisplayActivity::class.java)
+        intent.putExtra("breedName",breedName)
+        intent.putExtra("subBreeds",subBreeds)
         startActivity(intent)
 
     }
