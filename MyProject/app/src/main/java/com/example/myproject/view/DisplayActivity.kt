@@ -10,9 +10,9 @@ class DisplayActivity : AppCompatActivity() {
         setContentView(R.layout.activity_display)
 
         val breedName = intent.getStringExtra("breedName")
-        val subBreeds = intent.getStringArrayListExtra("subBreeds")
+        val token = intent.getIntExtra("token",0)
 
-        if (subBreeds == null) {
+        if (token == 0) {
             val fragment = ImagesFragment()
             val bundle = Bundle()
             fragment.arguments = bundle
@@ -26,7 +26,6 @@ class DisplayActivity : AppCompatActivity() {
             val fragment = SubBreedFragment()
             val bundle = Bundle()
             fragment.arguments = bundle
-            bundle.putStringArrayList("subBreeds", subBreeds) //sending chosen sub breed list to fragment from recyclerview
             bundle.putString("breedName",breedName) //sending chosen breed name to fragment from recyclerview
 
             supportFragmentManager.beginTransaction().apply {

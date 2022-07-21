@@ -9,11 +9,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myproject.R
 import com.example.myproject.adapter.RVChildAdapter
 import com.example.myproject.databinding.FragmentSubBreedFragmentBinding
+import com.example.myproject.model.SubBreeds
+import com.example.myproject.service.RetrofitInstance
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class SubBreedFragment : Fragment(R.layout.fragment_sub_breed_fragment), RVChildAdapter.Listener {
     private lateinit var binding: FragmentSubBreedFragmentBinding
-    private  var subBreedsList : ArrayList<String>? =null
+    private  var subBreedsList = arrayListOf<String>()
     private  var breedName: String? = null
 
     override fun onCreateView(
@@ -28,15 +33,35 @@ class SubBreedFragment : Fragment(R.layout.fragment_sub_breed_fragment), RVChild
         super.onViewCreated(view, savedInstanceState)
 
         val data = arguments
-        subBreedsList = data?.getStringArrayList("subBreeds")
         breedName = data?.getString("breedName")
 
         val str = breedName.toString().uppercase()
         binding.tvBreedName.text = "Sub-Breeds Of $str"
 
-        binding.rvSub.layoutManager = LinearLayoutManager(this.context)
-        binding.rvSub.adapter = RVChildAdapter(subBreedsList!!,this@SubBreedFragment)
+        loadData()
 
+    }
+
+    private fun loadData(){
+
+        val call = RetrofitInstance.api.getSubBreeds(breedName)
+        call.enqueue(object: Callback<SubBreeds>{
+            override fun onResponse(call: Call<SubBreeds>, response: Response<SubBreeds>) {
+                if(response.isSuccessful){
+                    subBreedsList = ArrayList(response.body()!!.message)
+                    println("sizeOfSubs: ${subBreedsList.size}")
+                    println("subs: $subBreedsList")
+
+                    binding.rvSub.layoutManager = LinearLayoutManager(activity)
+                    binding.rvSub.adapter = RVChildAdapter(subBreedsList,this@SubBreedFragment)
+                }
+            }
+
+            override fun onFailure(call: Call<SubBreeds>, t: Throwable) {
+                t.printStackTrace()
+            }
+
+        })
     }
 
     override fun onItemClick(subBreedName: String) {
@@ -51,6 +76,4 @@ class SubBreedFragment : Fragment(R.layout.fragment_sub_breed_fragment), RVChild
             commit()
         }
     }
-
-
 }

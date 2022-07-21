@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myproject.adapter.RVAdapter
 
 import com.example.myproject.databinding.ActivityMainBinding
-import com.example.myproject.model.Dog
+import com.example.myproject.model.Breeds
 
 import com.example.myproject.service.RetrofitInstance
 import retrofit2.Call
@@ -31,11 +31,11 @@ class MainActivity : AppCompatActivity(),RVAdapter.Listener {
 
     private fun loadData() {
 
-        val call = RetrofitInstance.api.getData()
-        call.enqueue(object: Callback<Dog>{
+        val call = RetrofitInstance.api.getBreeds()
+        call.enqueue(object: Callback<Breeds>{
             override fun onResponse(
-                call: Call<Dog>,
-                response: Response<Dog>,
+                call: Call<Breeds>,
+                response: Response<Breeds>,
             ) {
                 if(response.isSuccessful){
                     println("name:${response.body()?.message?.entries}")
@@ -53,26 +53,19 @@ class MainActivity : AppCompatActivity(),RVAdapter.Listener {
                     }
                 }
             }
-            override fun onFailure(call: Call<Dog>, t: Throwable) {
+            override fun onFailure(call: Call<Breeds>, t: Throwable) {
                 t.printStackTrace()
             }
 
         })
     }
 
-    override fun onItemClick(breedName: String) {
-        val intent = Intent(this,DisplayActivity::class.java)
-        intent.putExtra("breedName",breedName)
+    override fun onItemClick(breedName: String, token: Int) {
+        val intent = Intent(this, DisplayActivity::class.java)
+        intent.putExtra("breedName", breedName)
+        intent.putExtra("token", token)
+        println("token:$token")
         startActivity(intent)
 
     }
-
-    override fun onItemClick(breedName: String, subBreeds: ArrayList<String>) {
-        val intent = Intent(this,DisplayActivity::class.java)
-        intent.putExtra("breedName",breedName)
-        intent.putExtra("subBreeds",subBreeds)
-        startActivity(intent)
-
-    }
-
 }

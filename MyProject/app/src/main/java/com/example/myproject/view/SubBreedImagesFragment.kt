@@ -69,11 +69,11 @@ class SubBreedImagesFragment : Fragment(),RVImageAdapter.Listener {
         })
     }
 
-    override fun onItemClick(subBreedName: String) {
-       val fragment = ImageFullFragment()
+    override fun onItemClick(breedName: String) {
+        val fragment = ImageFullFragment()
         val bundle = Bundle()
         fragment.arguments = bundle
-        bundle.putString("breedName",subBreedName) //sending chosen breed name to fragment from recyclerview
+        bundle.putString("breedName",breedName) //sending chosen breed name to fragment from recyclerview
 
         requireActivity().supportFragmentManager.beginTransaction().apply {
             replace(R.id.flFragmentBase,fragment)
