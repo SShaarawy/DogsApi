@@ -6,5 +6,5 @@
 
 --------------------------------------------------------------------------------------------------
 
-![Ekran Alıntısı4](https://user-images.githubusercontent.com/32748494/181918241-4cc36531-799b-4d67-a533-3aaafb49458a.PNG)   
+![Ekran Alıntısı4](https://user-images.githubusercontent.com/32748494/181918241-4cc36531-799b-4d67-a533-3aaafb49458a.PNG)&&
 ![Ekran Alıntısı5](https://user-images.githubusercontent.com/32748494/181918243-dea629c9-1887-4b16-9e7c-2b1331792367.PNG)
